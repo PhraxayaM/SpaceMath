@@ -103,31 +103,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-//        if let debris = self.childNode(withName: "//debri") as? SKSpriteNode  {
-//            
-//            self.debris = debris
-//            self.debris.physicsBody?.categoryBitMask = PhysicsCategory.debris
-//            self.debris.physicsBody?.contactTestBitMask = PhysicsCategory.beamNode | PhysicsCategory.ship
-//            self.debris.physicsBody?.collisionBitMask = PhysicsCategory.None
-//            
-//        }
     }
+    
+    // Creates debris function using the Debris class
     
     func createDebris() {
         let debris = Debris(number: 99)
         let moveDown = SKAction.moveBy(x: 0.0, y: -50, duration: 30)
         let removeNode = SKAction.removeFromParent()
-//        debris.texture = SKTexture(imageNamed: debrisTexture.randomElement()!)
-//        newDebris.texture =  SKTexture(imageNamed: debrisTexture.randomElement()!)
         let nodeSequence = SKAction.sequence([moveDown, removeNode])
         let repeatDebris = SKAction.repeatForever(nodeSequence)
         debris.physicsBody = SKPhysicsBody(circleOfRadius: debris.size.width)
         debris.physicsBody?.affectedByGravity = false
         addChild(debris)
-        //debris.run(nodeSequence)
         debris.position = CGPoint(x: CGFloat.random(in: 0..<size.width), y: (view?.bounds.height)!)
         debris.moveDown()
     }
+    
+    // Creates label function for the score
     
     func createScoreLabel() {
         scoreLabel = SKLabelNode(text: "Score: 0")
@@ -140,6 +133,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         addChild(scoreLabel)
     }
+    
+    // Creates math problem
+    
     func createMathProblem() {
         // generate 2 random integers
         arg1 = Int.random(in: 5...10)
@@ -163,14 +159,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(problemLabel)
             }
         }
-        //        if problemLabel.parent == nil {
-        //            addChild(problemLabel)
-        //        }
+
     }
+    
+    // Function to call when updating score
     
     func scoreUpdate(score: Int) {
         scoreLabel.text = "Score: \(score)"
     }
+    
+    // Old function used to spawn Debris, currently not being used
     
     func updateDebris() {
         spawnTimer += fixedDelta
@@ -198,44 +196,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             self.addChild(newDebris)
-            //            let randomPosition = CGPoint(x: CGFloat.random(in: 15..<((scene?.size.width)! - 15)), y: debris.position.y)
-            //            let randomPosition
             newDebris.zPosition = 100
-            //            newDebris.position = (self.scene?.convert(randomPosition, to: self))!
             
             spawnedDebris += 1
             
             spawnTimer = 0
-//            if let newDebris = debris.copy() as? SKSpriteNode {
-//                newDebris.physicsBody?.affectedByGravity = true
-//                newDebris.physicsBody?.isDynamic = true
-//                newDebris.physicsBody?.allowsRotation = true
-//                newDebris.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -1...1), duration: 1.0)))
-//                newDebris.physicsBody?.categoryBitMask = PhysicsCategory.debris
-//                newDebris.physicsBody?.contactTestBitMask = PhysicsCategory.beamNode
-//                newDebris.physicsBody?.collisionBitMask = PhysicsCategory.ship
-//                newDebris.name = "debris"
-//                // NOTE: gets random element in array
-//                newDebris.texture =  SKTexture(imageNamed: debrisTexture.randomElement()!)
-//
-//                let randomPositionX  = CGFloat.random(in: 0..<size.width)
-//                let positionX = CGFloat(randomPositionX)
-//                newDebris.position.x = positionX
-//                newDebris.position.y = (view?.bounds.height)!
-//
-//
-//                self.addChild(newDebris)
-//                //            let randomPosition = CGPoint(x: CGFloat.random(in: 15..<((scene?.size.width)! - 15)), y: debris.position.y)
-//                //            let randomPosition
-//                newDebris.zPosition = 100
-//                //            newDebris.position = (self.scene?.convert(randomPosition, to: self))!
-//
-//                spawnedDebris += 1
-//
-//                spawnTimer = 0
+
             }
         }
     }
+    
+    // function used to detect if the beam is making contact with a debris
     func didBegin(_ contact: SKPhysicsContact)  {
         print("BEAM BEAM\(Int.random(in: 0...1000))")
         var firstBody:SKPhysicsBody
@@ -258,6 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         checkBeamCollision(contact)
     }
     
+    // Function that checks if the body is a node and a beam when they collide, then removes both the beam and node. Problem changes is the value of the debris is equal to the answer of the math problem
     func checkBeamCollision(_ contact: SKPhysicsContact) {
         let bodyA = contact.bodyA
         let bodyB = contact.bodyB
@@ -268,7 +240,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if debris.number == (arg1!+arg2!) {
                 print("success")
                 createMathProblem()
-//                problemLabel.text = ("\(arg1!) + \(arg2!)")
             }
             score += debris.number
             print(debris.number)
@@ -282,7 +253,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if debris.number == (arg1!+arg2!) {
                 print("sucess")
                 createMathProblem()
-//                problemLabel.text = ("\(arg1!) + \(arg2!)")
             }
             score += debris.number
             print(debris.number)
