@@ -13,7 +13,7 @@ import GameplayKit
 class Ship: SKSpriteNode {
     
     var beam = SKNode()
-//    var beam: SKNode!
+    //    var beam: SKNode!
     
     func initBody() {
         self.shipsBody()
@@ -24,9 +24,9 @@ class Ship: SKSpriteNode {
     
     // NOTE: this method give a physicbody to the ship
     private func shipsBody() {
-       
+        
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
-                self.physicsBody?.allowsRotation = false
+        self.physicsBody?.allowsRotation = false
         self.physicsBody?.affectedByGravity = false
         self.physicsBody?.categoryBitMask = PhysicsCategory.ship
     }
@@ -35,32 +35,32 @@ class Ship: SKSpriteNode {
     func fireBeam(scene: SKScene) {
         if let scene = scene as? GameScene {
             let newBeam = beam.copy() as! SKNode
-//                    newBeam.physicsBody? = SKPhysicsBody(rectangleOf: CGSize(width: 3, height: 25))
+            //                    newBeam.physicsBody? = SKPhysicsBody(rectangleOf: CGSize(width: 3, height: 25))
             newBeam.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2 - 100)
-                    newBeam.physicsBody?.affectedByGravity = false
-                    newBeam.physicsBody?.isDynamic = true
-                    newBeam.physicsBody?.allowsRotation = false
+            newBeam.physicsBody?.affectedByGravity = false
+            newBeam.physicsBody?.isDynamic = true
+            newBeam.physicsBody?.allowsRotation = false
             newBeam.physicsBody?.usesPreciseCollisionDetection = true
-                    newBeam.physicsBody?.categoryBitMask = PhysicsCategory.beamNode
-                    newBeam.physicsBody?.contactTestBitMask = PhysicsCategory.debris
-                    let forward = SKAction.applyForce(CGVector(dx: 0, dy: 50), duration: 99)
+            newBeam.physicsBody?.categoryBitMask = PhysicsCategory.beamNode
+            newBeam.physicsBody?.contactTestBitMask = PhysicsCategory.debris
+            let forward = SKAction.applyForce(CGVector(dx: 0, dy: 50), duration: 99)
             let remove = SKAction.removeFromParent()
             let seq = SKAction.sequence([forward, remove])
-                    newBeam.run(seq)
-                    newBeam.name = "beam"
-                    /* Generate new obstacle position, start just outside screen and with a random y value */
-//            let randomPosition = CGPoint(x: scene.mainShip.position.x + (self.size.width/2), y: self.size.height - 90)
+            newBeam.run(seq)
+            newBeam.name = "beam"
+            /* Generate new obstacle position, start just outside screen and with a random y value */
+            //            let randomPosition = CGPoint(x: scene.mainShip.position.x + (self.size.width/2), y: self.size.height - 90)
             let randomPosition = CGPoint(x: scene.mainShip.position.x, y: scene.mainShip.position.y + (scene.mainShip.size.height))
-
+            
             //        let randomPosition = CGPoint(x: self.position.x + 150, y: self.position.y)
-                    /* Convert new node position back to scene space */
+            /* Convert new node position back to scene space */
             //        newBeam.position = self.convert(randomPosition, to: self)
-                    newBeam.position = randomPosition
-                    
-                    scene.addChild(newBeam)
+            newBeam.position = randomPosition
+            
+            scene.addChild(newBeam)
         }
         
-
+        
     }
     
     // NOTE: Checking if beam collides with asteroid

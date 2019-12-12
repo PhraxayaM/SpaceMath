@@ -14,13 +14,11 @@ class MenuScene: SKScene {
     var gameTitle = SKLabelNode()
     var playButton = SKShapeNode()
     var game = GameScene()
-    //    var bestScore =
     
     override func didMove(to view: SKView) {
         self.backgroundColor = .black
         if let view = self.view {
             //Create game title
-            //            gameTitle = SKLabelNode(fontNamed: "ArialRoundedMTBold")
             self.gameTitle.zPosition = 2
             self.gameTitle.position = CGPoint(x: view.bounds.width/2, y: (view.bounds.height / 2) + 20)
             self.gameTitle.fontSize = 60
@@ -59,12 +57,10 @@ class MenuScene: SKScene {
     
     func startGame() {
         if let gameScene = SKScene(fileNamed: "GameScene") {
-            
-        //let gameScene = GameScene(size: size)
-        gameScene.scaleMode = scaleMode
-        let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-        view?.presentScene(gameScene, transition: reveal)
-        print("should have presented menu")
+            gameScene.scaleMode = scaleMode
+            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            view?.presentScene(gameScene, transition: reveal)
+            print("should have presented menu")
         }
         
     }

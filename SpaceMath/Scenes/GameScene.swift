@@ -34,9 +34,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var arg2 : Int?
     var ans1 = 0
     var ans2 = 0
-    
-    //    var newDebris: SKSpriteNode!
-    
+        
     
     override func didMove(to view: SKView) {
         startGame()
@@ -52,13 +50,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createMathProblem()
         createScoreLabel()
         self.physicsWorld.contactDelegate = self
-
+        
         
     }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
-//        updateDebris()
+        //        updateDebris()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -90,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame() {
         initNodes()
         createDebris()
-//        updateDebris()
+        //        updateDebris()
         
     }
     
@@ -98,7 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let ship: Ship = self.childNode(withName: "shipNode") as? Ship {
             self.mainShip = ship
             self.mainShip.beam = self.childNode(withName: "beam")!
-//            self.mainShip.physicsBody?.allowsRotation = false
+            //            self.mainShip.physicsBody?.allowsRotation = false
             self.mainShip.initBody()
             
         }
@@ -109,10 +107,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createDebris() {
         let debris = Debris(number: 99)
-        let moveDown = SKAction.moveBy(x: 0.0, y: -50, duration: 30)
-        let removeNode = SKAction.removeFromParent()
-        let nodeSequence = SKAction.sequence([moveDown, removeNode])
-        let repeatDebris = SKAction.repeatForever(nodeSequence)
         debris.physicsBody = SKPhysicsBody(circleOfRadius: debris.size.width)
         debris.physicsBody?.affectedByGravity = false
         addChild(debris)
@@ -124,7 +118,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createScoreLabel() {
         scoreLabel = SKLabelNode(text: "Score: 0")
-        //        scoreLabel.position = CGPoint(x: 100, y: self.frame.size.height - 60)
         scoreLabel.position.x = ((view?.bounds.width)!/2 - 450)
         scoreLabel.position.y = ((view?.bounds.height)!/2 + 300)
         scoreLabel.fontName = "AmericanTypewriter-Bold"
@@ -156,10 +149,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             problemLabel.position.y = (view.bounds.height/2)
             problemLabel.zPosition = 2
             if problemLabel.parent == nil {
-            addChild(problemLabel)
+                addChild(problemLabel)
             }
         }
-
+        
     }
     
     // Function to call when updating score
@@ -178,30 +171,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return
             }
             if let newDebris = debris.copy() as? SKSpriteNode {
-            newDebris.physicsBody?.affectedByGravity = true
-            newDebris.physicsBody?.isDynamic = true
+                newDebris.physicsBody?.affectedByGravity = true
+                newDebris.physicsBody?.isDynamic = true
                 newDebris.physicsBody?.allowsRotation = false
-            newDebris.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -1...1), duration: 5.0)))
-            newDebris.physicsBody?.categoryBitMask = PhysicsCategory.debris
-            newDebris.physicsBody?.contactTestBitMask = PhysicsCategory.beamNode
-            newDebris.physicsBody?.collisionBitMask = PhysicsCategory.ship
-            newDebris.name = "debris"
-            // NOTE: gets random element in array
-            newDebris.texture =  SKTexture(imageNamed: debrisTexture.randomElement()!)
-            
-            let randomPositionX  = CGFloat.random(in: 0..<size.width)
-            let positionX = CGFloat(randomPositionX)
-            newDebris.position.x = positionX
-            newDebris.position.y = (view?.bounds.height)!
-            
-            
-            self.addChild(newDebris)
-            newDebris.zPosition = 100
-            
-            spawnedDebris += 1
-            
-            spawnTimer = 0
-
+                newDebris.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.random(in: -1...1), duration: 5.0)))
+                newDebris.physicsBody?.categoryBitMask = PhysicsCategory.debris
+                newDebris.physicsBody?.contactTestBitMask = PhysicsCategory.beamNode
+                newDebris.physicsBody?.collisionBitMask = PhysicsCategory.ship
+                newDebris.name = "debris"
+                // NOTE: gets random element in array
+                newDebris.texture =  SKTexture(imageNamed: debrisTexture.randomElement()!)
+                
+                let randomPositionX  = CGFloat.random(in: 0..<size.width)
+                let positionX = CGFloat(randomPositionX)
+                newDebris.position.x = positionX
+                newDebris.position.y = (view?.bounds.height)!
+                
+                
+                self.addChild(newDebris)
+                newDebris.zPosition = 100
+                
+                spawnedDebris += 1
+                
+                spawnTimer = 0
+                
             }
         }
     }
